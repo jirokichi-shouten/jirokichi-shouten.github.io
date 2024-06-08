@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4D CAT fields maker</title>
+<script>
+    function tableAdd() {
+        const div = document.getElementById("tables");
+        const orgTable = document.getElementById("org_table");
+        const clonedTable = orgTable.cloneNode(true);
+        clonedTable.removeAttribute("id");
+        clonedTable.style.display = "";
+        const tbody = clonedTable.children[0];
+        for(const child of tbody.children) {
+            child.removeAttribute("id");
+        }
+        div.appendChild(clonedTable);
+    }
+
+    function tableCopy(element) {
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        const table = tbody.parentElement;
+        const div = table.parentElement;
+        const clonedTable = table.cloneNode(true);
+
+        // フォーム作成フラグ
+        if(tr.children[2].children[1].value === "1") {
+            console.log("1");
+            clonedTable.children[0].children[0].children[2].children[1].children[0].selected = true;
+            clonedTable.children[0].children[0].children[2].children[1].children[1].selected = false;
+        } else {
+            console.log("!1");
+            clonedTable.children[0].children[0].children[2].children[1].children[0].selected = false;
+            clonedTable.children[0].children[0].children[2].children[1].children[1].selected = true;
+        }
+
+        if(tbody.children.length > 2) {
+            for(let i = 2; i < tbody.children.length; i++) {
+                // 型
+                for(const child of clonedTable.children[0].children[i].children[1].children[0].children) {
+                    if(child.value === tbody.children[i].children[1].children[0].value) {
+                        child.selected = true;
+                    } else {
+                        child.selected = false;
+                    }
+                }
+
+                // インデックス
+                if(tbody.children[i].children[3].children[0].value === "1") {
+                    clonedTable.children[0].children[i].children[3].children[0].children[0].selected = false;
+                    clonedTable.children[0].children[i].children[3].children[0].children[1].selected = true;
+                } else {
+                    clonedTable.children[0].children[i].children[3].children[0].children[0].selected = true;
+                    clonedTable.children[0].children[i].children[3].children[0].children[1].selected = false;
+                }
+
+                // ユニーク
+                if(tbody.children[i].children[4].children[0].value === "1") {
+                    clonedTable.children[0].children[i].children[4].children[0].children[0].selected = false;
+                    clonedTable.children[0].children[i].children[4].children[0].children[1].selected = true;
+                } else {
+                    clonedTable.children[0].children[i].children[4].children[0].children[0].selected = true;
+                    clonedTable.children[0].children[i].children[4].children[0].children[1].selected = false;
+                }
+            }
+        }
+
+        div.appendChild(clonedTable);
+    }
+
+    function tableDelete(element) {
+        const ret = confirm("テーブルを削除してよろしいですか？");
+        if(ret === false) {
+            return;
+        }
+
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        const table = tbody.parentElement;
+        const div = table.parentElement;
+        div.removeChild(table);
+    }
+
+    function columnAdd(element) {
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        const orgColumn = document.getElementById("org_column");
+        const clonedColumn = orgColumn.cloneNode(true);
+        clonedColumn.removeAttribute("id");
+        tbody.appendChild(clonedColumn);
+    }
+
+    function columnCopy(element) {
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        const clonedColumn = tr.cloneNode(true);
+
+        // 型
+        for(const child of clonedColumn.children[1].children[0].children) {
+            if(child.value === tr.children[1].children[0].value) {
+                child.selected = true;
+            } else {
+                child.selected = false;
+            }
+        }
+
+        // インデックス
+        if(tr.children[3].children[0].value === "1") {
+            clonedColumn.children[3].children[0].children[0].selected = false;
+            clonedColumn.children[3].children[0].children[1].selected = true;
+        } else {
+            clonedColumn.children[3].children[0].children[0].selected = true;
+            clonedColumn.children[3].children[0].children[1].selected = false;
+        }
+
+        // ユニーク
+        if(tr.children[4].children[0].value === "1") {
+            clonedColumn.children[4].children[0].children[0].selected = false;
+            clonedColumn.children[4].children[0].children[1].selected = true;
+        } else {
+            clonedColumn.children[4].children[0].children[0].selected = true;
+            clonedColumn.children[4].children[0].children[1].selected = false;
+        }
+
+        tbody.appendChild(clonedColumn);
+    }
+
+    function columnDelete(element) {
+        const ret = confirm("列を削除してよろしいですか？");
+        if(ret === false) {
+            return;
+        }
+
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        tbody.removeChild(tr);
+    }
+
+    function importFields(element) {
+        const file = element.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file);
+
+        reader.onload = function() {
+            restoreFields(reader.result);
+        };
+
+        reader.onerror = function() {
+            alert(reader.error);
+        };
+    }
+
+    function exportFields() {
+        let fieldsStr = "";
+
+        const div = document.getElementById("tables");
+        for(const table of div.children) {
+            if(table.style.display === "none") {
+                continue;
+            }
+
+            const tbody = table.children[0];
+            let i = 0;
+            for(const tr of tbody.children) {
+                if(i === 0) {
+                    fieldsStr += tr.children[0].children[1].value + "\t"; // テーブル名
+                    fieldsStr += tr.children[1].children[1].value + "\t"; // 接頭辞
+                    fieldsStr += (Number(tr.children[2].children[1].value) === 1 ? "フォーム作る" : "") + "\t"; // フォーム作成フラグ
+                    fieldsStr += "\t";
+                    fieldsStr += "\t";
+                    fieldsStr += tr.children[5].children[1].value + "\t"; // 論理名
+                    fieldsStr += tr.children[6].children[1].value + "\t"; // 説明
+                    fieldsStr += tr.children[7].children[1].value; // 備考
+                    fieldsStr += "\n";
+                } else if(i === 1){
+                    // 何もしない
+                } else {
+                    fieldsStr += tr.children[0].children[0].value + "\t"; // フィールド名
+                    fieldsStr += tr.children[1].children[0].value + "\t"; // 型
+                    fieldsStr += tr.children[2].children[0].value + "\t"; // 文字長
+                    fieldsStr += tr.children[3].children[0].value + "\t"; // インデックス
+                    fieldsStr += tr.children[4].children[0].value + "\t"; // ユニーク
+                    fieldsStr += tr.children[5].children[0].value + "\t"; // 論理名
+                    fieldsStr += tr.children[6].children[0].value + "\t"; // 説明
+                    fieldsStr += tr.children[7].children[0].value; // 備考
+                    fieldsStr += "\n";
+                }
+
+                i++;
+            }
+
+            fieldsStr += "-\t\t\t\t\t\t\t\n";
+        }
+
+        const blob = new Blob([fieldsStr], {'type':'text/plain'});
+        let file_name = 'fields.txt';
+        document.getElementById('exportFields').download = file_name;
+        document.getElementById('exportFields').href = window.URL.createObjectURL(blob);
+    }
+
+    function restoreFields(content) {
+        let isTable = true;
+        let table = null;
+        const lines = content.split("\n");
+        for(const line of lines) {
+            const rows = line.split("\t");
+            if(rows.length < 8) {
+                return;
+            }
+
+            if(rows[0] === "-") {
+                isTable = true;
+                continue;
+            }
+
+            if(isTable) {
+                const div = document.getElementById("tables");
+                const orgTable = document.getElementById("org_table");
+                table = orgTable.cloneNode(true);
+                table.removeAttribute("id");
+                table.style.display = "";
+                const tbody = table.children[0];
+                tbody.removeChild(tbody.children[2]);
+                for(const child of tbody.children) {
+                    child.removeAttribute("id");
+                }
+                const tr = tbody.children[0];
+
+                tr.children[0].children[1].value = rows[0]; // テーブル名
+                tr.children[1].children[1].value = rows[1]; // 接頭辞
+                // フォーム作成フラグ
+                if(rows[2] === "フォーム作る") {
+                    tr.children[2].children[1].children[0].selected = true;
+                    tr.children[2].children[1].children[1].selected = false;
+                } else {
+                    tr.children[2].children[1].children[0].selected = false;
+                    tr.children[2].children[1].children[1].selected = true;
+                }
+                tr.children[5].children[1].value = rows[5]; // 論理名
+                tr.children[6].children[1].value = rows[6]; // 説明
+                tr.children[7].children[1].value = rows[7]; // 備考
+
+                div.appendChild(table);
+                isTable = false;
+            } else {
+                const orgColumn = document.getElementById("org_column");
+                const column = orgColumn.cloneNode(true);
+                column.removeAttribute("id");
+
+                column.children[0].children[0].value = rows[0]; // フィールド名
+                // 型
+                for(const child of column.children[1].children[0].children) {
+                    if(child.value === rows[1]) {
+                        child.selected = true;
+                    } else {
+                        child.selected = false;
+                    }
+                }
+                column.children[2].children[0].value = rows[2]; // 文字長
+                // インデックス
+                if(rows[3] === "1") {
+                    column.children[3].children[0].children[0].selected = false;
+                    column.children[3].children[0].children[1].selected = true;
+                } else {
+                    column.children[3].children[0].children[0].selected = true;
+                    column.children[3].children[0].children[1].selected = false;
+                }
+                // ユニーク
+                if(rows[4] === "1") {
+                    column.children[4].children[0].children[0].selected = false;
+                    column.children[4].children[0].children[1].selected = true;
+                } else {
+                    column.children[4].children[0].children[0].selected = true;
+                    column.children[4].children[0].children[1].selected = false;
+                }
+                column.children[4].children[0].value = rows[4]; // ユニーク
+                column.children[5].children[0].value = rows[5]; // 論理名
+                column.children[6].children[0].value = rows[6]; // 説明
+                column.children[7].children[0].value = rows[7]; // 備考
+
+                table.children[0].appendChild(column);
+            }
+        }
+    }
+
+    function tableUp(element) {
+        const div = document.getElementById("tables");
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        const table = tbody.parentElement;
+
+        console.log(element.previousElementSibling);
+        if(table.previousElementSibling) {
+            if(table.previousElementSibling.id !== "org_table") {
+                div.insertBefore(table, table.previousElementSibling);
+            }
+        }
+    }
+
+    function tableDown(element) {
+        const div = document.getElementById("tables");
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+        const table = tbody.parentElement;
+
+        if(table.nextElementSibling) {
+            if(table.nextElementSibling .nextElementSibling) {
+                div.insertBefore(table, table.nextElementSibling.nextElementSibling);
+                return;
+            }
+        }
+
+        div.insertBefore(table, null);
+    }
+
+    function columnUp(element) {
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+
+        if(tr.previousElementSibling) {
+            if(tr.previousElementSibling.previousElementSibling) {
+                if(tr.previousElementSibling.previousElementSibling.previousElementSibling) {
+                    tbody.insertBefore(tr, tr.previousElementSibling);
+                }
+            }
+        }
+    }
+
+    function columnDown(element) {
+        const td = element.parentElement;
+        const tr = td.parentElement;
+        const tbody = tr.parentElement;
+
+        if(tr.nextElementSibling) {
+            if(tr.nextElementSibling .nextElementSibling) {
+                tbody.insertBefore(tr, tr.nextElementSibling.nextElementSibling);
+                return;
+            }
+        }
+
+        tbody.insertBefore(tr, null);
+    }
+</script>
+</head>
+<body>
+    <h1>4D CAT fields maker</h1>
+    <button onclick="tableAdd();">テーブル追加</button>
+    <input type="file" onchange="importFields(this)">
+    <a id="exportFields" style="background-color: #99ffcc; cursor: pointer; padding: 2px;" onclick="exportFields()">書き出し</a>
+    <div id="tables">
+        <table id="org_table" style="display: none; margin-top: 12px;">
+            <tbody>
+                <tr style="background-color: #00ff00;">
+                    <th>テーブル名<br><input type="text"></th>
+                    <th>接頭辞<br><input type="text"></th>
+                    <th>
+                        フォーム作成フラグ<br>
+                        <select>
+                            <option value="1">作成</option>
+                            <option value="0">作成しない</option>
+                        </select>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th>論理名<br><input type="text"></th>
+                    <th>説明<br><input type="text"></th>
+                    <th>備考<br><input type="text"></th>
+                    <th><button onclick="tableCopy(this);">複製</button></th>
+                    <th><button onclick="tableDelete(this);">削除</button></th>
+                    <th><button onclick="tableUp(this);">↑</button><button onclick="tableDown(this);">↓</button></th>
+                </tr>
+                <tr style="background-color: #00ffff;">
+                    <th>フィールド名</th>
+                    <th>型</th>
+                    <th>文字長</th>
+                    <th>インデックス</th>
+                    <th>ユニーク</th>
+                    <th>論理名</th>
+                    <th>説明</th>
+                    <th>備考</th>
+                    <th colspan="2"><button onclick="columnAdd(this);">列追加</button></th>
+                    <th></th>
+                </tr>
+                <tr id="org_column" style="background-color: #00ffff;">
+                    <td><input type="text"></td>
+                    <td>
+                        <select>
+                            <option value="Is Alpha Field">Is Alpha Field</option>
+                            <option value="Is Text">Is Text</option>
+                            <option value="Is Real">Is Real</option>
+                            <option value="Is Integer">Is Integer</option>
+                            <option value="Is LongInt">Is LongInt</option>
+                            <option value="Is Time">Is Time</option>
+                            <option value="Is Boolean">Is Boolean</option>
+                            <option value="Is Picture">Is Picture</option>
+                            <option value="Is Subtable">Is Subtable</option>
+                            <option value="Is BLOB">Is BLOB</option>
+                        </select>
+                    </td>
+                    <td><input type="text"></td>
+                    <td>
+                        <select>
+                            <option value="0">×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="0">×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <th><button onclick="columnCopy(this);">複製</button></th>
+                    <th><button onclick="columnDelete(this);">削除</button></th>
+                    <th><button onclick="columnUp(this);">↑</button><button onclick="columnDown(this);">↓</button></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
