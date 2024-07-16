@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>黄金率計算機</title>
+<meta name="GENERATOR" content="CXEditor">
+
+<script language="JavaScript">
+<!--
+function keisan() {
+	txt=document.myForm.moto.value;
+	for (i=0;i<txt.length;i++) {
+		c=txt.charAt(i);
+		if("0123456789".indexOf(c,0)<0) {
+			alert("数値以外が含まれています");
+			return;
+		}
+	}
+	n=eval(txt);
+	document.myForm.k854100.value=n*85.4/100;
+	document.myForm.k100854.value=n*100/85.4;
+	document.myForm.k764100.value=n*76.4/100;
+	document.myForm.k100764.value=n*100/76.4;
+	document.myForm.k618100.value=n*61.8/100;
+	document.myForm.k100618.value=n*100/61.8;
+	document.myForm.k382100.value=n*38.2/100;
+	document.myForm.k100382.value=n*100/38.2;
+	document.myForm.k236100.value=n*23.6/100;
+	document.myForm.k100236.value=n*100/23.6;
+	document.myForm.k146100.value=n*14.6/100;
+	document.myForm.k100146.value=n*100/14.6;
+	
+	document.myForm.k090228100.value=n*9.0228/100;
+	document.myForm.k100090228.value=n*100/9.0228;
+	document.myForm.k055761100.value=n*5.5761/100;
+	document.myForm.k100055761.value=n*100/5.5761;
+	document.myForm.k034460100.value=n*3.4460/100;
+	document.myForm.k100034460.value=n*100/3.4460;
+	document.myForm.k021296100.value=n*2.1296/100;
+	document.myForm.k100021296.value=n*100/2.1296;
+	document.myForm.k013161100.value=n*1.3161/100;
+	document.myForm.k100013161.value=n*100/1.3161;
+	
+}
+//-->
+</script>
+
+
+</head>
+<body>
+
+<h1 align="center">黄金率計算機</h1>
+
+<form name="myForm">
+
+<table align="center" width="38%" border="1">
+	<tr>
+		<th width="24%">BaseLength<br>(x)</th>
+		<td align="right" valign="middle">
+		　<input type="text" name="moto" value="100" size="10" maxlength="10">　
+		<input type="button" value="計算" onClick="keisan()">　&nbsp;
+		</td>
+	</tr>
+</table>
+<br>
+<br>
+<table align="center" border="1" width="38%">
+	<tr>
+		<th width="24%">n</th>
+		<th>x * n / 100</th>
+		<th>x * 100 / n</th>
+	</tr>
+	<tr>
+		<th>85.4</th>
+		<td><input type="text" name="k854100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100854" size="15" maxlength="15"></td>
+	</tr>
+	<tr>
+		<th>76.4</th>
+		<td><input type="text" name="k764100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100764" size="15" maxlength="15"></td>
+	</tr>
+	<tr>
+		<th>61.8</th>
+		<td><input type="text" name="k618100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100618" size="15" maxlength="15"></td>
+	</tr>
+	<tr>
+		<th>38.2</th>
+		<td><input type="text" name="k382100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100382" size="15" maxlength="15"></td>
+	</tr>
+	<tr>
+		<th>23.6</th>
+		<td><input type="text" name="k236100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100236" size="15" maxlength="15"></td>
+	</tr>
+	<tr>
+		<th>14.6</th>
+		<td><input type="text" name="k146100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100146" size="15" maxlength="15"></td>
+	</tr>
+</table>
+<br>
+<br>
+<table align="center" border="1" width="38%">
+	<tr>
+		<th width="24%">n</th>
+		<th>x * n / 100</th>
+		<th>x * 100 / n</th>
+	</tr>
+	<tr>
+		<th>9.0228</th>
+		<td><input type="text" name="k090228100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100090228" size="18" maxlength="16"></td>
+	</tr>
+	<tr>
+		<th>5.5761</th>
+		<td><input type="text" name="k055761100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100055761" size="18" maxlength="16"></td>
+	</tr>
+	<tr>
+		<th>3.4460</th>
+		<td><input type="text" name="k034460100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100034460" size="18" maxlength="16"></td>
+	</tr>
+	<tr>
+		<th>2.1296</th>
+		<td><input type="text" name="k021296100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100021296" size="18" maxlength="16"></td>
+	</tr>
+	<tr>
+		<th>1.3161</th>
+		<td><input type="text" name="k013161100" size="15" maxlength="15"></td>
+		<td><input type="text" name="k100013161" size="18" maxlength="18"></td>
+	</tr>
+</table>
+<br>
+<br>
+
+</form>
+
+<hr align="center" width="62%">
+<div align="center">
+&copy; Pharos Project 2005-2008 All rights reserved.
+</div>
+
+</body>
+</html>
