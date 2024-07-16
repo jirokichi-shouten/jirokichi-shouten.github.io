@@ -357,6 +357,7 @@
     <button onclick="tableAdd();">テーブル追加</button>
     <input type="file" onchange="importFields(this)">
     <a id="exportFields" style="background-color: #99ffcc; cursor: pointer; padding: 2px;" onclick="exportFields()">書き出し</a>
+    <a id="exportFields" style="background-color: #99ffcc; cursor: pointer; padding: 2px;" onclick="exportFields()">SQL書き出し</a>
     <div id="tables">
         <table id="org_table" style="display: none; margin-top: 12px;">
             <tbody>
@@ -388,7 +389,7 @@
                     <th>論理名</th>
                     <th>説明</th>
                     <th>備考</th>
-                    <th colspan="2"><button onclick="columnAdd(this);">列追加</button></th>
+                    <th colspan="2"><button onclick="columnAdd(this);">フィールド追加</button></th>
                     <th></th>
                 </tr>
                 <tr id="org_column" style="background-color: #FFFFDA;">
@@ -403,7 +404,6 @@
                             <option value="Is Time">Is Time</option>
                             <option value="Is Boolean">Is Boolean</option>
                             <option value="Is Picture">Is Picture</option>
-                            <option value="Is Subtable">Is Subtable</option>
                             <option value="Is BLOB">Is BLOB</option>
                         </select>
                     </td>
