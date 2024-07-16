@@ -68,6 +68,11 @@
             }
         }
 
+        if(table.nextElementSibling) {
+            div.insertBefore(clonedTable, table.nextElementSibling);
+            return;
+        }
+
         div.appendChild(clonedTable);
     }
 
@@ -128,7 +133,12 @@
             clonedColumn.children[4].children[0].children[1].selected = false;
         }
 
-        tbody.appendChild(clonedColumn);
+        if(tr.nextElementSibling) {
+            tbody.insertBefore(clonedColumn, tr.nextElementSibling);
+            return;
+        }
+
+        tbody.insertBefore(clonedColumn, null);
     }
 
     function columnDelete(element) {
@@ -357,7 +367,7 @@
     <button onclick="tableAdd();">テーブル追加</button>
     <input type="file" onchange="importFields(this)">
     <a id="exportFields" style="background-color: #99ffcc; cursor: pointer; padding: 2px;" onclick="exportFields()">書き出し</a>
-    <a id="exportFields" style="background-color: #99ffcc; cursor: pointer; padding: 2px;" onclick="exportFields()">SQL書き出し</a>
+    <a id="exportSql" style="background-color: #99ffcc; cursor: pointer; padding: 2px;" onclick="exportFields()">SQL書き出し</a>
     <div id="tables">
         <table id="org_table" style="display: none; margin-top: 12px;">
             <tbody>
