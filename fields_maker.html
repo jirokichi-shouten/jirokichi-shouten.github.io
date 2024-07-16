@@ -132,7 +132,7 @@
     }
 
     function columnDelete(element) {
-        const ret = confirm("列を削除してよろしいですか？");
+        const ret = confirm("フィールドを削除してよろしいですか？");
         if(ret === false) {
             return;
         }
@@ -392,6 +392,156 @@
                     <th colspan="2"><button onclick="columnAdd(this);">フィールド追加</button></th>
                     <th></th>
                 </tr>
+
+                <tr style="background-color: #FFFFDA;">
+                    <td><input type="email" value="ID"></td>
+                    <td>
+                        <select>
+                            <option value="Is Alpha Field">Is Alpha Field</option>
+                            <option value="Is Text">Is Text</option>
+                            <option value="Is Real">Is Real</option>
+                            <option value="Is Integer">Is Integer</option>
+                            <option value="Is LongInt" selected>Is LongInt</option>
+                            <option value="Is Time">Is Time</option>
+                            <option value="Is Boolean">Is Boolean</option>
+                            <option value="Is Picture">Is Picture</option>
+                            <option value="Is BLOB">Is BLOB</option>
+                        </select>
+                    </td>
+                    <td><input type="text"></td>
+                    <td>
+                        <select>
+                            <option value="0">×</option>
+                            <option value="1" selected>○</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="0">×</option>
+                            <option value="1" selected>○</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="ID"></td>
+                    <td><input type="text" value="プライマリーキー"></td>
+                    <td><input type="text"></td>
+                    <th><button onclick="columnCopy(this);">複製</button></th>
+                    <th><button onclick="columnDelete(this);">削除</button></th>
+                    <th><button onclick="columnUp(this);">↑</button><button onclick="columnDown(this);">↓</button></th>
+                </tr>
+
+                <tr style="background-color: #FFFFDA;">
+                    <td><input type="email" value="DEL_FLAG"></td>
+                    <td>
+                        <select>
+                            <option value="Is Alpha Field">Is Alpha Field</option>
+                            <option value="Is Text">Is Text</option>
+                            <option value="Is Real">Is Real</option>
+                            <option value="Is Integer" selected>Is Integer</option>
+                            <option value="Is LongInt">Is LongInt</option>
+                            <option value="Is Time">Is Time</option>
+                            <option value="Is Boolean">Is Boolean</option>
+                            <option value="Is Picture">Is Picture</option>
+                            <option value="Is BLOB">Is BLOB</option>
+                        </select>
+                    </td>
+                    <td><input type="text"></td>
+                    <td>
+                        <select>
+                            <option value="0">×</option>
+                            <option value="1" selected>○</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="0" selected>×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="削除フラグ"></td>
+                    <td><input type="text" value="0:削除されていない、1以上：削除されている"></td>
+                    <td><input type="text"></td>
+                    <th><button onclick="columnCopy(this);">複製</button></th>
+                    <th><button onclick="columnDelete(this);">削除</button></th>
+                    <th><button onclick="columnUp(this);">↑</button><button onclick="columnDown(this);">↓</button></th>
+                </tr>
+
+                <tr style="background-color: #FFFFDA;">
+                    <td><input type="email" value="CREATE_DATEMARK"></td>
+                    <td>
+                        <select>
+                            <option value="Is Alpha Field" selected>Is Alpha Field</option>
+                            <option value="Is Text">Is Text</option>
+                            <option value="Is Real">Is Real</option>
+                            <option value="Is Integer">Is Integer</option>
+                            <option value="Is LongInt">Is LongInt</option>
+                            <option value="Is Time">Is Time</option>
+                            <option value="Is Boolean">Is Boolean</option>
+                            <option value="Is Picture">Is Picture</option>
+                            <option value="Is BLOB">Is BLOB</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="20"></td>
+                    <td>
+                        <select>
+                            <option value="0" selected>×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="0" selected>×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="作成デイトマーク"></td>
+                    <td><input type="text" value="17桁の文字列：yyyyMMddHHmmssSSS"></td>
+                    <td><input type="text"></td>
+                    <th><button onclick="columnCopy(this);">複製</button></th>
+                    <th><button onclick="columnDelete(this);">削除</button></th>
+                    <th><button onclick="columnUp(this);">↑</button><button onclick="columnDown(this);">↓</button></th>
+                </tr>
+
+                <tr style="background-color: #FFFFDA;">
+                    <td><input type="email" value="UPDATE_DATEMARK"></td>
+                    <td>
+                        <select>
+                            <option value="Is Alpha Field" selected>Is Alpha Field</option>
+                            <option value="Is Text">Is Text</option>
+                            <option value="Is Real">Is Real</option>
+                            <option value="Is Integer">Is Integer</option>
+                            <option value="Is LongInt">Is LongInt</option>
+                            <option value="Is Time">Is Time</option>
+                            <option value="Is Boolean">Is Boolean</option>
+                            <option value="Is Picture">Is Picture</option>
+                            <option value="Is BLOB">Is BLOB</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="20"></td>
+                    <td>
+                        <select>
+                            <option value="0" selected>×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="0" selected>×</option>
+                            <option value="1">○</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="更新デイトマーク"></td>
+                    <td><input type="text" value="17桁の文字列：yyyyMMddHHmmssSSS"></td>
+                    <td><input type="text"></td>
+                    <th><button onclick="columnCopy(this);">複製</button></th>
+                    <th><button onclick="columnDelete(this);">削除</button></th>
+                    <th><button onclick="columnUp(this);">↑</button><button onclick="columnDown(this);">↓</button></th>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <table style="display: none; margin-top: 12px;">
+            <tbody>
                 <tr id="org_column" style="background-color: #FFFFDA;">
                     <td><input type="email"></td>
                     <td>
