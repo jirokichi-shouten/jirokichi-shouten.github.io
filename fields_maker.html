@@ -237,7 +237,9 @@
                 table.removeAttribute("id");
                 table.style.display = "";
                 const tbody = table.children[0];
-                tbody.removeChild(tbody.children[2]);
+                while(tbody.children.length > 2) {
+                    tbody.removeChild(tbody.children[2]);
+                }
                 for(const child of tbody.children) {
                     child.removeAttribute("id");
                 }
